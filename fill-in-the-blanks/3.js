@@ -1,32 +1,32 @@
 try {
   const title = 'fin-in-3';
-  console._(_);
+  console.group(title);
 
   const obj = {
-    _: {
+    state: {
       biggest: -Infinity,
       smallest: Infinity,
       all: []
     },
-    _: _,
-    _: function (biggestEl, smallestEl, event) {
+    log: [],
+    handler: function (biggestEl, smallestEl, event) {
       // debugger;
-      const newNumberStr = event._._.newNumber.value;
+      const newNumberStr = event.target.form.newNumber.value;
       const newNumber = Number(newNumberStr);
       this.state.all.push(newNumber);
-      if (newNumber _ this.state._) {
-        this.state._ = newNumber;
-        biggestEl.innerHTML = this.state._;
+      if (newNumber > this.state.biggest) {
+        this.state.biggest = newNumber;
+        biggestEl.innerHTML = this.state.biggest;
       }
-      if (newNumber _ this.state._) {
-        this.state._ = newNumber;
-        smallestEl.innerHTML = this.state._;
+      if (newNumber < this.state.smallest) {
+        this.state.smallest = newNumber;
+        smallestEl.innerHTML = this.state.smallest;
       }
       this.log.push(
         JSON.parse(JSON.stringify(this.state))
       );
     },
-    _: function (id) {
+    view: function (id) {
       // debugger;
       const biggestNumEl = document.createElement('code');
       biggestNumEl.innerHTML = this.state.biggest;
@@ -47,7 +47,7 @@ try {
       const buttonEl = document.createElement('input');
       buttonEl.type = 'button';
       buttonEl.value = 'add number';
-      buttonEl.onclick = _._.bind(this, biggestNumEl, smallestNumEl);
+      buttonEl.onclick = this.handler.bind(this, biggestNumEl, smallestNumEl);
 
       const formEl = document.createElement('form');
       formEl.appendChild(inputEl);
@@ -62,7 +62,7 @@ try {
         if (e.target === e.currentTarget) console.log(title, this);
       }).bind(this);
 
-      _ _;
+      return container;
     },
   }
 
@@ -73,6 +73,6 @@ try {
 
   console.groupEnd();
 } catch (err) {
-  console.log(_);
+  console.log(err);
   console.groupEnd();
 }

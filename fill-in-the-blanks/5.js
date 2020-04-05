@@ -2,14 +2,14 @@ try {
   const title = 'fill-in-5';
   console.group(title);
 
-  const _ = {
+  const obj = {
     state: {
       word: ''
     },
     log: [],
-    get _() { return _ },
-    set _(newOne) { this.state.word = newOne },
-    _: function () {
+    get function() { return this.state.word },
+    set function(newOne) { this.state.word = newOne },
+    reverseWord: function () {
       this.word = this.word
         .split('').reverse().join('');
     },
@@ -18,15 +18,15 @@ try {
     },
     handler: function (element, event) {
       // debugger;
-      const newWord = event.target._;
+      const newWord = event.target.value;
       this.word = newWord;
       if (this.word.length > 20) {
         this.reverseWord();
       } else {
-        this._();
+        this.keepLetters();
       }
       element.innerHTML = this.word;
-      this._.push({
+      this.log.push({
         newWord,
         length: newWord.length,
         thisWord: this.word
@@ -40,7 +40,7 @@ try {
       const inputEl = document.createElement('input');
       inputEl.type = 'text';
       inputEl.placeholder = 'type here';
-      inputEl.onkeyup = this.handler._(_, outputEl);
+      inputEl.onkeyup = this.handler.bind(this, outputEl);
 
       const container = document.createElement('div');
       container.id = id;
@@ -51,13 +51,13 @@ try {
         if (e.target === e.currentTarget) console.log(title, this);
       }).bind(this);
 
-      return _;
+      return container;
     },
   }
 
   document
     .getElementById('root')
-    .appendChild(_.view(title));
+    .appendChild(obj.view(title));
 
 
 

@@ -2,13 +2,13 @@ try {
   const title = 'fill-in-2';
   console.group(title);
 
-  const _ = {
-    _: {
-      _: ''
+  const obj = {
+    state: {
+      word: ''
     },
-    _: [],
+    log: [],
     keepLetters: function () {
-      this._._ = this._._.replace(/[^a-zA-Z]/gi, '');
+      this.state.word = this.state.word.replace(/[^a-zA-Z]/gi, '');
     },
     handler: function (element, event) {
       // debugger;
@@ -29,24 +29,24 @@ try {
       const inputEl = document.createElement('input');
       inputEl.type = 'text';
       inputEl.placeholder = 'type here';
-      inputEl.onkeyup = this.handler.bind(this, _);
+      inputEl.onkeyup = this.handler.bind(this, outputEl);
 
       const container = document.createElement('div');
       container.id = id;
       container.appendChild(inputEl);
       container.appendChild(outputEl);
       container.className = 'exercise';
-      container.onclick = (function (_) {
-        if (_.target === _.currentTarget) console.log(title, _);
-      }).bind(_);
+      container.onclick = (function (e) {
+        if (e.target === e.currentTarget) console.log(title, this);
+      }).bind(this);
 
       return container;
     },
   }
 
-  _
-    .getElementById(_)
-    .appendChild(_.view(_));
+  document
+    .getElementById("root")
+    .appendChild(obj.view(title));
 
 
   const assert = (assertion, message) => {
