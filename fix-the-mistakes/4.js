@@ -11,14 +11,14 @@ try {
     },
     log: [],
     add: function () { // 1 mistake
-      this.state.num + this.state.step;
+      this.state.num = this.state.num + this.state.step;
     },
     subtract: function () { // 1 mistake
-      this.state.num - this.state.step;
+      this.state.num = this.state.num - this.state.step;
     },
     handleClick: function (display, event) { // 1 mistake
       // debugger;
-      const action = event.target.value;
+      const action = event.target.innerHTML;
       this[action]();
       display.innerHTML = this.state.num;
       this.log.push({
@@ -27,7 +27,7 @@ try {
       });
     },
     handleStepChange: function (event) { // 1 mistake
-      this.state.step = event.target.value;
+      this.state.step = Number(event.target.value);
       this.log.push({
         action: 'set step',
         newState: JSON.parse(JSON.stringify(this.state))
@@ -40,16 +40,16 @@ try {
 
       const upButtonEl = document.createElement('button');
       upButtonEl.innerHTML = 'add';
-      upButtonEl.onclick = this.handleClick;
+      upButtonEl.onclick = this.handleClick.bind(this,displayEl); //bind
 
       const downButtonEl = document.createElement('button');
       downButtonEl.innerHTML = 'subtract';
-      downButtonEl.onclick = this.handleClick;
+      downButtonEl.onclick = this.handleClick.bind(this,displayEl); //bind 
 
       const stepSizeEl = document.createElement('input');
       stepSizeEl.type = 'number';
       stepSizeEl.value = this.state.step;
-      stepSizeEl.onchange = this.handleStepChange;
+      stepSizeEl.onchange = this.handleStepChange.bind(this); // bind only input field
 
       const container = document.createElement('div');
       container.id = id;
@@ -57,6 +57,7 @@ try {
       container.appendChild(document.createElement('br'));
       container.appendChild(upButtonEl);
       container.appendChild(downButtonEl);
+      container.appendChild(stepSizeEl);  /// add step size element
       container.appendChild(document.createElement('br'));
       container.className = 'exercise';
 
